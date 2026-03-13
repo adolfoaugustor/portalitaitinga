@@ -5,55 +5,55 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Role;
-use App\Models\Company;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // 1. Criar as Roles iniciais
-        $superAdminRole = Role::firstOrCreate(['name' => 'super_admin']);
-        $empresaRole = Role::firstOrCreate(['name' => 'empresa']);
-        $gerenteRole = Role::firstOrCreate(['name' => 'gerente']);
-        $candidatoRole = Role::firstOrCreate(['name' => 'clientes']);
-
-        // 2. Criar a Empresa Inicial (Tenant)
-        $portal = Company::firstOrCreate(
-            ['slug' => 'portalitaitinga'],
-            [
-                'name' => 'Portal Itaitinga',
-                'is_active' => true,
-            ]
-        );
-
-        // 3. Criar o Usuário Master
-        $admin = User::firstOrCreate(
+        User::updateOrCreate(
             ['email' => 'adolfoaugustor@gmail.com'],
             [
                 'name' => 'Adolfo Aero Websites',
-                'password' => Hash::make('senha123'), // Altera após o primeiro login
+                'organization_type' => 'company',
+                'is_super_admin' => true,
+                'password' => Hash::make('senha123'),
             ]
         );
 
-        // 4. Vincular Usuário à Role e à Empresa
-        if (!$admin->hasRole('super_admin')) {
-            $admin->assignRole($superAdminRole);
-        }
+        User::updateOrCreate(
+            ['email' => 'company@portal.local'],
+            [
+                'name' => 'Organization Company',
+                'organization_type' => 'company',
+                'is_super_admin' => false,
+                'password' => Hash::make('senha123'),
+            ]
+        );
 
-        // Vincular o admin à empresa no relacionamento Many-to-Many
-        if (!$admin->companies()->where('company_id', $portal->id)->exists()) {
-            $admin->companies()->attach($portal);
-        }
+        User::updateOrCreate(
+            ['email' => 'informal@portal.local'],
+            [
+                'name' => 'Organization Informal Seller',
+                'organization_type' => 'informal_seller',
+                'is_super_admin' => false,
+                'password' => Hash::make('senha123'),
+            ]
+        );
 
-        $this->command->info('Ambiente do Portal Itaitinga configurado com sucesso!');
-        $this->command->warn('Login: adolfoaugustor@gmail.com | Senha: senha123');
-        $this->command->info('URL de acesso: http://localhost/admin/portalitaitinga');
+        User::updateOrCreate(
+            ['email' => 'service@portal.local'],
+            [
+                'name' => 'Organization Service Provider',
+                'organization_type' => 'service_provider',
+                'is_super_admin' => false,
+                'password' => Hash::make('senha123'),
+            ]
+        );
+
+        $this->command->info('Seed complete: super admin + organization users created.');
+        $this->command->info('Super admin login: adolfoaugustor@gmail.com / senha123');
     }
 }

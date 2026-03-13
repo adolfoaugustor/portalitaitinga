@@ -1,11 +1,69 @@
-@import 'tailwindcss';
+﻿:root {
+    --portal-brand: #321fdb;
+    --portal-brand-dark: #1f1492;
+}
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+body {
+    background: var(--cui-tertiary-bg);
+    font-family: 'Segoe UI', sans-serif;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+.wrapper {
+    width: 100%;
+    padding-inline: var(--cui-sidebar-occupy-start, 0) var(--cui-sidebar-occupy-end, 0);
+    transition: padding 0.15s ease-in-out;
+}
+
+.header > .container-fluid,
+.sidebar-header {
+    min-height: calc(4rem + 1px);
+}
+
+.sidebar-brand-full {
+    margin-left: 3px;
+}
+
+.sidebar-nav .nav-link.active {
+    background: color-mix(in srgb, var(--portal-brand) 18%, transparent);
+    color: #fff;
+}
+
+.sidebar-nav .nav-link.active .nav-icon {
+    color: #fff;
+}
+
+.auth-shell {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(50, 31, 219, 0.18), transparent 30%),
+        linear-gradient(135deg, #f3f4f7 0%, #e7ebf1 100%);
+}
+
+.auth-card-side {
+    background: linear-gradient(160deg, var(--portal-brand) 0%, var(--portal-brand-dark) 100%);
+}
+
+.auth-card-side p {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.dashboard-stat {
+    min-height: 100%;
+}
+
+.dashboard-stat .display-6 {
+    line-height: 1;
+}
+
+.status-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 999px;
+    display: inline-block;
+}
+
+@media (max-width: 991.98px) {
+    .wrapper {
+        padding-inline: 0;
+    }
 }

@@ -1,97 +1,105 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+﻿# Portal Itaitinga
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicacao Laravel 11 com autenticacao de sessao nativa do Laravel e painel administrativo em CoreUI.
 
-# 🚀 Portal Itaitinga - Guia de Iniciação
+## Stack atual
 
-Este projeto utiliza **Laravel 11/12**, **Filament v4**, e é orquestrado via **Docker (Laravel Sail)**.
+- PHP: `^8.4`
+- Laravel: `^11`
+- Node.js: `20.19+` (ou `22.12+` por causa do Vite 7)
+- Banco: MySQL/MariaDB
 
-## 📋 Pré-requisitos
+## Rotas principais
 
-* **Docker Desktop** instalado e a correr.
-* Nenhum serviço local (como MySQL ou Apache) a ocupar as portas **80** e **3306**.
+- `/login` -> login do admin
+- `/admin` -> dashboard (protegido por `auth`)
+- `/logout` -> encerra sessao
 
----
+## Desenvolvimento local
 
-## 🛠️ Iniciar o Projeto (Primeira Vez)
+Voce pode rodar com Docker Sail (recomendado) ou ambiente nativo.
 
-Se acabaste de clonar o projeto ou resetar o ambiente, segue esta ordem:
+### 1) Com Docker Sail (recomendado)
 
-1. **Subir os Containers (Modo Detached):**
-```bash
-./vendor/bin/sail up -d
-```
+Pre-requisitos:
 
+- Docker Desktop rodando
 
-2. **Instalar Dependências (Caso a pasta vendor esteja ausente):**
-```bash
-./vendor/bin/sail composer install
-```
+Passos:
 
-
-3. **Configurar Variáveis de Ambiente:**
 ```bash
 cp .env.example .env
+./vendor/bin/sail up -d
+./vendor/bin/sail composer install
 ./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
 ```
 
+Em outro terminal, rode o servidor Laravel:
 
-4. **Executar Migrações (Estrutura da Base de Dados):**
 ```bash
-./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan serve --host=0.0.0.0 --port=8000
 ```
+
+Acesso local:
+
+- App: `http://localhost:8000`
+- Login: `http://localhost:8000/login`
+- Admin: `http://localhost:8000/admin`
+
+### 2) Ambiente nativo (sem Docker)
+
+Pre-requisitos:
+
+- PHP 8.4 com extensoes comuns do Laravel
+- Composer 2
+- Node 20.19+ (ou 22.12+)
+- MySQL/MariaDB
+
+Passos:
 
 ```bash
-./vendor/bin/sail artisan migrate:fresh --seed
+cp .env.example .env
+composer install
+php artisan key:generate
+php artisan migrate --seed
+npm install
+npm run dev
+php artisan serve
 ```
 
-5. **Criar Usuário Administrador (Para acessar o painel):**
+## Credenciais iniciais (seeder)
+
+O seeder cria um usuario administrativo padrao:
+
+- Email: `adolfoaugustor@gmail.com`
+- Senha: `senha123`
+
+Altere a senha apos o primeiro login.
+
+## Comandos uteis
+
 ```bash
-./vendor/bin/sail artisan make:filament-user
+php artisan optimize:clear
+php artisan test
+npm run build
 ```
 
+## Build de producao
 
----
+```bash
+npm install
+npm run build
+```
 
-## 🚦 Comandos de Manutenção Diária
+Consulte o guia de deploy em [PRODUCAO-HOMOLOGACAO-HOSTINGER.md](./PRODUCAO-HOMOLOGACAO-HOSTINGER.md).
 
-### Ligar/Desligar
 
-* **Iniciar aplicação:** `./vendor/bin/sail up -d`
-* **Parar aplicação:** `./vendor/bin/sail stop`
-* **Derrubar tudo (limpeza):** `./vendor/bin/sail down`
+Se seu Laravel usa Vite e você vai puxar do GitHub, o fluxo é:
 
-### Base de Dados e Cache
-
-* **Atualizar tabelas (novas migrations):** `./vendor/bin/sail artisan migrate`
-* **Limpar cache de rotas/configuração:** `./vendor/bin/sail artisan optimize:clear`
-* **Aceder ao banco de dados (Tinker):** `./vendor/bin/sail artisan tinker`
-
-### Plugins e Permissões (Filament Shield)
-
-* **Gerar/Atualizar Permissões:** `./vendor/bin/sail artisan shield:generate`
-* **Limpar cache de permissões:** `./vendor/bin/sail artisan permission:cache-reset`
-
----
-
-## 🌐 Endereços Úteis (Localhost)
-
-* **Frontend:** [http://localhost]()
-* **Painel Administrativo:** [http://localhost/admin/portal]()
-* **Mailpit (Testes de Email):** [http://localhost:8025]()
-
----
-
-## 📝 Notas de Desenvolvimento
-
-* Sempre que adicionares um novo **Resource** no Filament, limpa o cache: `./vendor/bin/sail artisan config:clear`.
-* O acesso multi-tenant exige um `slug` válido na URL (ex: `/admin/portal`).
-
----
-
-**O que achas deste guia?** Se estiver tudo certo, o próximo passo que posso fazer por ti é criar o **CompanyResource** com os campos de GPS e Logotipo para começares a povoar o portal!
+1 - No servidor, atualize o código: git pull
+2 - Atualize dependências PHP: composer install --no-dev --optimize-autoloader
+3 - Gere os assets do Vite: npm ci (ou npm install) e depois npm run build
+Se no seu Business o npm/node não existir via SSH, faça localmente: npm ci + npm run build e suba apenas public/build (e commit esse diretório no Git, ou envie por upload após o pull).

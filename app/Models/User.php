@@ -2,82 +2,54 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Filament\Panel;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasTenants;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, HasTenants
+class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
+        'organization_type',
+        'is_super_admin',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
+            'is_super_admin' => 'boolean',
             'password' => 'hashed',
         ];
     }
 
-    public function companies(): BelongsToMany
+    public function culturalEvents(): HasMany
     {
-        return $this->belongsToMany(Company::class);
+        return $this->hasMany(CulturalEvent::class);
     }
 
-    public function company(): BelongsToMany
+    public function localListings(): HasMany
     {
-        return $this->companies();
+        return $this->hasMany(LocalListing::class);
     }
 
-    // O Filament usa isto para saber quais empresas mostrar no menu
-    public function getTenants(Panel $panel): Collection
+    public function jobVacancies(): HasMany
     {
-        return $this->companies;
+        return $this->hasMany(JobVacancy::class);
     }
 
-    // Verifica se o usuário pode entrar naquela empresa específica
-    public function canAccessTenant(Model $tenant): bool
+    public function classifiedItems(): HasMany
     {
-        return $this->companies->contains($tenant);
-    }
-
-    // Define quem pode aceder ao painel admin (neste caso, todos autenticados)
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true; 
+        return $this->hasMany(ClassifiedItem::class);
     }
 }
