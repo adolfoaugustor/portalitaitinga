@@ -52,4 +52,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(ClassifiedItem::class);
     }
+
+    public function organizationName(): string
+    {
+        return match ($this->organization_type) {
+            'company' => 'Empresa',
+            'informal_seller' => 'Vendedor Informal',
+            'service_provider' => 'Prestador de Servico',
+            default => 'Organizacao',
+        };
+    }
 }

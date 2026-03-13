@@ -15,7 +15,12 @@ class ClassifiedItem extends Model
         'title',
         'slug',
         'kind',
+        'main_photo_path',
+        'category',
         'price',
+        'neighborhood',
+        'advertiser_name',
+        'whatsapp_number',
         'description',
         'is_published',
     ];

@@ -8,6 +8,19 @@ use Illuminate\View\View;
 
 class VagasEmpregoController extends Controller
 {
+    public function index(): View
+    {
+        $items = JobVacancy::query()
+            ->where('is_published', true)
+            ->orderBy('store_name')
+            ->orderBy('title')
+            ->get();
+
+        return view('public.vagas-index', [
+            'items' => $items,
+        ]);
+    }
+
     public function show(string $slug): View
     {
         $vacancy = JobVacancy::query()

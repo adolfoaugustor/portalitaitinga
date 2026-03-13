@@ -8,7 +8,7 @@
                     <div class="card col-md-7 p-4 mb-0">
                         <div class="card-body">
                             <h1>Login</h1>
-                            <p class="text-body-secondary">Acesse a administracao com a autenticacao padrao do Laravel.</p>
+                            <p class="text-body-secondary">Acesse preechendo as informações de usuário e senha.</p>
 
                             @if ($errors->any())
                                 <div class="alert alert-danger" role="alert">
@@ -54,7 +54,7 @@
                         <div class="card-body text-center d-flex flex-column justify-content-center">
                             <div>
                                 <h2>Painel administrativo</h2>
-                                <p>O Filament foi removido e o admin agora usa autenticacao de sessao nativa do Laravel com layout baseado em CoreUI.</p>
+                                <p>Login para o portal itaitinga</p>
                             </div>
                         </div>
                     </div>

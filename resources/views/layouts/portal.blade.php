@@ -11,22 +11,58 @@
 <div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
     <div class="sidebar-header border-bottom">
         <div class="sidebar-brand d-flex align-items-center justify-content-center">
-            <span class="fw-semibold">Portal CMS</span>
+            <span class="fw-semibold">ADM Portal</span>
         </div>
         <button class="btn-close d-lg-none" type="button" aria-label="Close menu" data-admin-sidebar-toggle></button>
     </div>
 
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
-        <li class="nav-item"><a class="nav-link" href="{{ route('portal.dashboard') }}">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('portal.agenda.index') }}">Cadastro de agenda</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('portal.guia.index') }}">Cadastro de guia local</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('portal.vagas.index') }}">Cadastro de vagas</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('portal.classificados.index') }}">Cadastro de classificados</a></li>
+        <li class="nav-item mb-2"><a class="nav-link" href="{{ route('portal.dashboard') }}">Dashboard</a></li>
+
+        <li class="nav-group" aria-expanded="false">
+            <a class="nav-link nav-group-toggle" href="#">
+                <svg class="nav-icon"><use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-sitemap') }}"></use></svg>
+                agenda-cultural
+            </a>
+            <ul class="nav-group-items compact">
+                <li class="nav-item"><a class="nav-link" href="{{ route('portal.agenda.index') }}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span>Cadastro</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-group" aria-expanded="false">
+            <a class="nav-link nav-group-toggle" href="#">
+                <svg class="nav-icon"><use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-sitemap') }}"></use></svg>
+                guia-local
+            </a>
+            <ul class="nav-group-items compact">
+                <li class="nav-item"><a class="nav-link" href="{{ route('portal.guia.index') }}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span>Cadastro</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-group" aria-expanded="false">
+            <a class="nav-link nav-group-toggle" href="#">
+                <svg class="nav-icon"><use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-sitemap') }}"></use></svg>
+                vagas-de-empregos
+            </a>
+            <ul class="nav-group-items compact">
+                <li class="nav-item"><a class="nav-link" href="{{ route('portal.vagas.index') }}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span>Cadastro</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-group" aria-expanded="false">
+            <a class="nav-link nav-group-toggle" href="#">
+                <svg class="nav-icon"><use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-sitemap') }}"></use></svg>
+                classificados
+            </a>
+            <ul class="nav-group-items compact">
+                <li class="nav-item"><a class="nav-link" href="{{ route('portal.classificados.index') }}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span>Cadastro</a></li>
+            </ul>
+        </li>
 
         <li class="nav-item mt-auto">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button class="nav-link border-0 bg-transparent text-start w-100" type="submit">Logout</button>
+                <button class="nav-link border-0 bg-transparent text-start w-100" type="submit">Sair</button>
             </form>
         </li>
     </ul>
@@ -37,7 +73,7 @@
         <div class="container-fluid border-bottom px-4">
             <button class="header-toggler" type="button" data-admin-sidebar-toggle>Menu</button>
             <div class="ms-auto small text-body-secondary">
-                {{ auth()->user()->name }} ({{ auth()->user()->organization_type }})
+                {{ auth()->user()->name }} ({{ auth()->user()->organizationName() }})
             </div>
         </div>
     </header>

@@ -1,10 +1,11 @@
-<?php
+﻿<?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Frontend\AgendaCulturalController;
 use App\Http\Controllers\Frontend\ClassificadosController;
 use App\Http\Controllers\Frontend\GuiaLocalController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\VagasEmpregoController;
 use App\Http\Controllers\Portal\AgendaController as PortalAgendaController;
 use App\Http\Controllers\Portal\ClassificadoController as PortalClassificadoController;
@@ -13,14 +14,24 @@ use App\Http\Controllers\Portal\GuiaLocalController as PortalGuiaLocalController
 use App\Http\Controllers\Portal\VagaController as PortalVagaController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => redirect()->route('portal.dashboard'));
+Route::get('/', [HomeController::class, 'index'])->name('public.home');
 
+Route::get('/agenda-cultural', [AgendaCulturalController::class, 'index'])->name('public.agenda.index');
 Route::get('/agenda-cultural/{date}/{slug}', [AgendaCulturalController::class, 'show'])
     ->where('date', '[0-9]{4}-[0-9]{2}-[0-9]{2}')
     ->name('public.agenda.show');
 
-Route::get('/guia-local/{category}', [GuiaLocalController::class, 'index'])->name('public.guia.index');
+Route::get('/guia-local', [GuiaLocalController::class, 'index'])->name('public.guia.index');
+Route::get('/guia-local/{category}', [GuiaLocalController::class, 'byCategory'])->name('public.guia.category');
+Route::get('/gua-local', fn () => redirect('/guia-local'));
+Route::get('/gua-local/{category}', fn (string $category) => redirect('/guia-local/'.$category));
+
+Route::get('/vagas-de-emprego', [VagasEmpregoController::class, 'index'])->name('public.vagas.index');
 Route::get('/vagas-de-emprego/{slug}', [VagasEmpregoController::class, 'show'])->name('public.vagas.show');
+Route::get('/vagas-de-empregos', fn () => redirect('/vagas-de-emprego'));
+Route::get('/vagas-de-empregos/{slug}', fn (string $slug) => redirect('/vagas-de-emprego/'.$slug));
+
+Route::get('/classificados', [ClassificadosController::class, 'index'])->name('public.classificados.index');
 Route::get('/classificados/{slug}', [ClassificadosController::class, 'show'])->name('public.classificados.show');
 
 Route::middleware('guest')->group(function () {

@@ -8,6 +8,19 @@ use Illuminate\View\View;
 
 class ClassificadosController extends Controller
 {
+    public function index(): View
+    {
+        $items = ClassifiedItem::query()
+            ->where('is_published', true)
+            ->orderBy('kind')
+            ->orderBy('title')
+            ->get();
+
+        return view('public.classificados-index', [
+            'items' => $items,
+        ]);
+    }
+
     public function show(string $slug): View
     {
         $item = ClassifiedItem::query()

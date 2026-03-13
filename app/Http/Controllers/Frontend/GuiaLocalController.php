@@ -10,7 +10,21 @@ class GuiaLocalController extends Controller
 {
     private const ALLOWED = ['empresas', 'lojas', 'servicos', 'autonomo'];
 
-    public function index(string $category): View
+    public function index(): View
+    {
+        $items = LocalListing::query()
+            ->where('is_published', true)
+            ->orderBy('category')
+            ->orderBy('name')
+            ->get();
+
+        return view('public.guia-index', [
+            'category' => null,
+            'items' => $items,
+        ]);
+    }
+
+    public function byCategory(string $category): View
     {
         abort_unless(in_array($category, self::ALLOWED, true), 404);
 
