@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -51,6 +52,23 @@ class User extends Authenticatable
     public function classifiedItems(): HasMany
     {
         return $this->hasMany(ClassifiedItem::class);
+    }
+
+    // Empresa vinculada ao usuário via CNPJ
+    public function company(): HasOne
+    {
+        return $this->hasOne(Company::class);
+    }
+
+    // Cardápio/vitrine do marketplace (disponível após cadastro de CNPJ)
+    public function marketplace(): HasOne
+    {
+        return $this->hasOne(Marketplace::class);
+    }
+
+    public function isCompany(): bool
+    {
+        return $this->company()->exists();
     }
 
     public function organizationName(): string

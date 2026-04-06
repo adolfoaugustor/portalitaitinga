@@ -1,4 +1,4 @@
-﻿@extends('layouts.public')
+@extends('layouts.public')
 
 @section('content')
 <div class="home-page">
@@ -15,13 +15,14 @@
         </div>
     </header>
 
-    <section class="hero-search">
-        <div class="container py-5 py-lg-6">
+    <section class="hero-search" style="background-image: url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1600&h=300&q=80'); background-size: cover; background-position: center; position: relative;">
+        <div style="position:absolute;inset:0;background:rgba(10,30,60,0.68);z-index:0;"></div>
+        <div class="container py-5 py-lg-6" style="position:relative;z-index:1;">
             <div class="hero-grid">
                 <div>
-                    <p class="hero-kicker">Pesquisa Geral</p>
-                    <h1>Tudo o que voce procura em Itaitinga em um so lugar</h1>
-                    <p class="hero-subtitle">Mockup inicial inspirado em portais locais: guia, agenda, vagas e classificados em uma busca unica.</p>
+                    <p class="hero-kicker" style="color:#90caf9;text-shadow:0 1px 4px rgba(0,0,0,.6);">Pesquisa Geral</p>
+                    <h1 style="color:#ffffff;text-shadow:0 2px 8px rgba(0,0,0,.7);">Tudo o que voce procura em Itaitinga em um so lugar</h1>
+                    <p class="hero-subtitle" style="color:#d0e8ff;text-shadow:0 1px 4px rgba(0,0,0,.5);">Guia local, agenda cultural, vagas de emprego e classificados em um unico portal.</p>
                 </div>
                 <form class="search-card" method="GET" action="{{ route('public.home') }}">
                     <div class="row g-2">
@@ -35,8 +36,6 @@
                                 <option>Todos os segmentos</option>
                                 <option>Agenda Cultural</option>
                                 <option>Guia Local</option>
-                                <option>Vagas</option>
-                                <option>Classificados</option>
                             </select>
                         </div>
                         <div class="col-md-6">
@@ -49,9 +48,11 @@
                                 <option>Parque Genezare</option>
                             </select>
                         </div>
-                        <div class="col-12 d-grid d-md-flex gap-2">
-                            <button class="btn btn-home-primary" type="submit">Buscar agora</button>
-                            <a class="btn btn-home-secondary" href="{{ route('public.guia.index') }}">Explorar categorias</a>
+                        <div class="col-12">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary flex-fill col-6" type="submit">Buscar agora</button>
+                                <a class="btn btn-success flex-fill col-6 text-center" href="{{ route('public.guia.index') }}">Explorar categorias</a>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -61,11 +62,45 @@
 
     <section class="quick-links py-4">
         <div class="container">
-            <div class="row g-3">
-                <div class="col-6 col-lg-3"><a class="quick-link" href="{{ route('public.agenda.index') }}">Agenda Cultural</a></div>
-                <div class="col-6 col-lg-3"><a class="quick-link" href="{{ route('public.guia.index') }}">Empresas e Servicos</a></div>
-                <div class="col-6 col-lg-3"><a class="quick-link" href="{{ route('public.vagas.index') }}">Vagas de Emprego</a></div>
-                <div class="col-6 col-lg-3"><a class="quick-link" href="{{ route('public.classificados.index') }}">Marketplace Local</a></div>
+            <div id="homeBannerCarousel" class="carousel slide home-banner" data-coreui-ride="carousel" data-coreui-interval="5000">
+                <div class="carousel-indicators home-banner-indicators">
+                    <button type="button" data-coreui-target="#homeBannerCarousel" data-coreui-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-coreui-target="#homeBannerCarousel" data-coreui-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-coreui-target="#homeBannerCarousel" data-coreui-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-coreui-target="#homeBannerCarousel" data-coreui-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+
+                <div class="carousel-inner rounded-4">
+                    <div class="carousel-item active">
+                        <a href="{{ route('public.classificados.index') }}" class="home-banner-link">
+                            <img src="https://images.unsplash.com/photo-1485291571150-772bcfc10da5?auto=format&fit=crop&w=1200&h=500&q=80" class="d-block w-100 home-banner-image" alt="Banner 1">
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="{{ route('public.guia.index') }}" class="home-banner-link">
+                            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&h=500&q=80" class="d-block w-100 home-banner-image" alt="Banner 2">
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="{{ route('public.agenda.index') }}" class="home-banner-link">
+                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&h=500&q=80" class="d-block w-100 home-banner-image" alt="Banner 3">
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="{{ route('public.vagas.index') }}" class="home-banner-link">
+                            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&h=500&q=80" class="d-block w-100 home-banner-image" alt="Banner 4">
+                        </a>
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-coreui-target="#homeBannerCarousel" data-coreui-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-coreui-target="#homeBannerCarousel" data-coreui-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
     </section>
@@ -78,17 +113,18 @@
             </div>
 
             <div class="row g-4 mt-1">
+
                 <div class="col-lg-6">
                     <article class="feature-block">
                         <div class="feature-head">
-                            <h3>Agenda Cultural</h3>
-                            <a href="{{ route('public.agenda.index') }}">Ver agenda completa</a>
+                            <h3>Classificados</h3>
+                            <a href="{{ route('public.classificados.index') }}">Ver anuncios</a>
                         </div>
-                        @foreach ($highlightEvents as $item)
+                        @foreach ($highlightClassifieds as $item)
                             <a class="list-card" href="{{ $item['url'] }}">
-                                <span class="badge badge-yellow">{{ $item['tag'] }}</span>
+                                <span class="badge badge-green">{{ $item['tag'] }}</span>
                                 <strong>{{ $item['title'] }}</strong>
-                                <small>{{ $item['when'] }} • {{ $item['where'] }}</small>
+                                <small>{{ $item['price'] }} &bull; {{ $item['place'] }}</small>
                             </a>
                         @endforeach
                     </article>
@@ -103,7 +139,7 @@
                         @foreach ($highlightBusinesses as $item)
                             <a class="list-card" href="{{ $item['url'] }}">
                                 <strong>{{ $item['name'] }}</strong>
-                                <small>{{ $item['category'] }} • {{ $item['neighborhood'] }}</small>
+                                <small>{{ $item['category'] }} &bull; {{ $item['neighborhood'] }}</small>
                                 <span class="text-home-link">{{ $item['cta'] }}</span>
                             </a>
                         @endforeach
@@ -128,18 +164,19 @@
                 <div class="col-lg-6">
                     <article class="feature-block">
                         <div class="feature-head">
-                            <h3>Classificados</h3>
-                            <a href="{{ route('public.classificados.index') }}">Ver anuncios</a>
+                            <h3>Agenda Cultural</h3>
+                            <a href="{{ route('public.agenda.index') }}">Ver agenda completa</a>
                         </div>
-                        @foreach ($highlightClassifieds as $item)
+                        @foreach ($highlightEvents as $item)
                             <a class="list-card" href="{{ $item['url'] }}">
-                                <span class="badge badge-green">{{ $item['tag'] }}</span>
+                                <span class="badge badge-yellow">{{ $item['tag'] }}</span>
                                 <strong>{{ $item['title'] }}</strong>
-                                <small>{{ $item['price'] }} • {{ $item['place'] }}</small>
+                                <small>{{ $item['when'] }} &bull; {{ $item['where'] }}</small>
                             </a>
                         @endforeach
                     </article>
                 </div>
+
             </div>
         </div>
     </section>

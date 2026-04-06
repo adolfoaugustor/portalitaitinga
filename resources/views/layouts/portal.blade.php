@@ -11,7 +11,7 @@
 <div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
     <div class="sidebar-header border-bottom">
         <div class="sidebar-brand d-flex align-items-center justify-content-center">
-            <span class="fw-semibold">ADM Portal</span>
+            <span class="fw-semibold">ADM Portal Itaitinga</span>
         </div>
         <button class="btn-close d-lg-none" type="button" aria-label="Close menu" data-admin-sidebar-toggle></button>
     </div>
