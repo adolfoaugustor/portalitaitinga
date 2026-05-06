@@ -44,6 +44,11 @@ class User extends Authenticatable
         return $this->hasMany(LocalListing::class);
     }
 
+    public function localListing(): HasOne
+    {
+        return $this->hasOne(LocalListing::class);
+    }
+
     public function jobVacancies(): HasMany
     {
         return $this->hasMany(JobVacancy::class);

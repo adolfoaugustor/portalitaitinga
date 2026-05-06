@@ -5,12 +5,19 @@
     <header class="home-nav">
         <div class="container d-flex flex-wrap gap-3 align-items-center justify-content-between py-3">
             <a class="home-brand" href="{{ route('public.home') }}">Portal Itaitinga</a>
-            <nav class="d-flex flex-wrap gap-2">
+            <nav class="d-flex flex-wrap gap-2 align-items-center">
                 <a href="{{ route('public.agenda.index') }}">Agenda Cultural</a>
                 <a href="{{ route('public.guia.index') }}">Guia Local</a>
                 <a href="{{ route('public.vagas.index') }}">Vagas</a>
                 <a href="{{ route('public.classificados.index') }}">Classificados</a>
-                <a href="{{ route('login') }}">Entrar</a>
+                <div class="ms-auto d-flex gap-2">
+                    @if(auth()->check())
+                        <a href="{{ route('portal.dashboard') }}">Admin</a>
+                    @else
+                        <a href="{{ route('login') }}">Entrar</a>
+                        <a href="{{ route('register') }}">Cadastrar-se</a>
+                    @endif
+                </div>
             </nav>
         </div>
     </header>
@@ -108,8 +115,8 @@
     <section class="py-5">
         <div class="container">
             <div class="section-title-row">
-                <h2>Destaques da semana (mockups)</h2>
-                <span>Dados ficticios para validacao de layout</span>
+                <h2>Destaques da semana</h2>
+                <span>Conteúdo gerado a partir dos itens cadastrados.</span>
             </div>
 
             <div class="row g-4 mt-1">
@@ -120,13 +127,15 @@
                             <h3>Classificados</h3>
                             <a href="{{ route('public.classificados.index') }}">Ver anuncios</a>
                         </div>
-                        @foreach ($highlightClassifieds as $item)
-                            <a class="list-card" href="{{ $item['url'] }}">
-                                <span class="badge badge-green">{{ $item['tag'] }}</span>
-                                <strong>{{ $item['title'] }}</strong>
-                                <small>{{ $item['price'] }} &bull; {{ $item['place'] }}</small>
+                        @forelse ($highlightClassifieds as $item)
+                            <a class="list-card" href="{{ route('public.classificados.index') }}">
+                                <span class="badge badge-green">Novo</span>
+                                <strong>{{ $item->title }}</strong>
+                                <small>R$ {{ number_format($item->price, 2, ',', '.') }} &bull; {{ $item->neighborhood }}</small>
                             </a>
-                        @endforeach
+                        @empty
+                            <div class="text-muted">Nenhum classificado publicado.</div>
+                        @endforelse
                     </article>
                 </div>
 
@@ -136,13 +145,15 @@
                             <h3>Guia Local</h3>
                             <a href="{{ route('public.guia.index') }}">Ver todos</a>
                         </div>
-                        @foreach ($highlightBusinesses as $item)
-                            <a class="list-card" href="{{ $item['url'] }}">
-                                <strong>{{ $item['name'] }}</strong>
-                                <small>{{ $item['category'] }} &bull; {{ $item['neighborhood'] }}</small>
-                                <span class="text-home-link">{{ $item['cta'] }}</span>
+                        @forelse ($highlightBusinesses as $item)
+                            <a class="list-card" href="{{ route('public.guia.category', ['category' => $item->category]) }}">
+                                <strong>{{ $item->name }}</strong>
+                                <small>{{ ucfirst($item->sector ?: $item->category) }} &bull; {{ $item->neighborhood }}</small>
+                                <span class="text-home-link">Ver no guia</span>
                             </a>
-                        @endforeach
+                        @empty
+                            <div class="text-muted">Nenhum item do guia local publicado.</div>
+                        @endforelse
                     </article>
                 </div>
 
@@ -152,12 +163,14 @@
                             <h3>Vagas de Emprego</h3>
                             <a href="{{ route('public.vagas.index') }}">Ver vagas</a>
                         </div>
-                        @foreach ($highlightJobs as $item)
-                            <a class="list-card" href="{{ $item['url'] }}">
-                                <strong>{{ $item['title'] }}</strong>
-                                <small>{{ $item['meta'] }}</small>
+                        @forelse ($highlightJobs as $item)
+                            <a class="list-card" href="{{ route('public.vagas.index') }}">
+                                <strong>{{ $item->title }}</strong>
+                                <small>{{ $item->location }}</small>
                             </a>
-                        @endforeach
+                        @empty
+                            <div class="text-muted">Nenhuma vaga publicada.</div>
+                        @endforelse
                     </article>
                 </div>
 
@@ -167,13 +180,15 @@
                             <h3>Agenda Cultural</h3>
                             <a href="{{ route('public.agenda.index') }}">Ver agenda completa</a>
                         </div>
-                        @foreach ($highlightEvents as $item)
-                            <a class="list-card" href="{{ $item['url'] }}">
-                                <span class="badge badge-yellow">{{ $item['tag'] }}</span>
-                                <strong>{{ $item['title'] }}</strong>
-                                <small>{{ $item['when'] }} &bull; {{ $item['where'] }}</small>
+                        @forelse ($highlightEvents as $item)
+                            <a class="list-card" href="{{ route('public.agenda.index') }}">
+                                <span class="badge badge-yellow">{{ ucfirst($item->event_type ?: 'Evento') }}</span>
+                                <strong>{{ $item->title }}</strong>
+                                <small>{{ $item->event_date->format('d/m') }} &bull; {{ $item->location }}</small>
                             </a>
-                        @endforeach
+                        @empty
+                            <div class="text-muted">Nenhum evento publicado.</div>
+                        @endforelse
                     </article>
                 </div>
 

@@ -26,6 +26,22 @@
                     Dashboard
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.agenda.*') ? 'active' : '' }}" href="{{ route('admin.agenda.index') }}">
+                    <svg class="nav-icon">
+                        <use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-calendar') }}"></use>
+                    </svg>
+                    Agenda Cultural
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('portal.guia.index') }}">
+                    <svg class="nav-icon">
+                        <use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-sitemap') }}"></use>
+                    </svg>
+                    Guia Local
+                </a>
+            </li>
             <li class="nav-item mt-auto">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

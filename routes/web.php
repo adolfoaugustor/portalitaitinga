@@ -11,6 +11,7 @@ use App\Http\Controllers\Portal\AgendaController as PortalAgendaController;
 use App\Http\Controllers\Portal\ClassificadoController as PortalClassificadoController;
 use App\Http\Controllers\Portal\DashboardController as PortalDashboardController;
 use App\Http\Controllers\Portal\GuiaLocalController as PortalGuiaLocalController;
+use App\Http\Controllers\Admin\AgendaController as AdminAgendaController;
 use App\Http\Controllers\Portal\VagaController as PortalVagaController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,8 @@ Route::get('/classificados/{slug}', [ClassificadosController::class, 'show'])->n
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
+    Route::get('/register', [AuthenticatedSessionController::class, 'createRegister'])->name('register');
+    Route::post('/register', [AuthenticatedSessionController::class, 'storeRegister'])->name('register.store');
 });
 
 Route::middleware('auth')->group(function () {
@@ -60,5 +63,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('super.admin')->group(function () {
         Route::get('/admin', AdminDashboardController::class)->name('admin.dashboard');
+        Route::get('/admin/agenda-cultural', [AdminAgendaController::class, 'index'])->name('admin.agenda.index');
+        Route::post('/admin/agenda-cultural', [AdminAgendaController::class, 'store'])->name('admin.agenda.store');
     });
 });

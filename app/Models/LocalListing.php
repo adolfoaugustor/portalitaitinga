@@ -16,11 +16,17 @@ class LocalListing extends Model
         'slug',
         'category',
         'logo_path',
+        'phone',
         'phone_whatsapp',
-        'address_neighborhood',
-        'opening_hours',
-        'contact_link',
+        'address',
+        'neighborhood',
         'city',
+        'sector',
+        'services',
+        'cnpj',
+        'show_cnpj',
+        'responsible',
+        'contact_link',
         'description',
         'is_published',
     ];
@@ -29,6 +35,7 @@ class LocalListing extends Model
     {
         return [
             'is_published' => 'boolean',
+            'show_cnpj' => 'boolean',
         ];
     }
 

@@ -1,13 +1,13 @@
-@extends('layouts.portal')
+@extends('layouts.admin')
 
 @section('content')
     <div class="d-flex flex-column flex-md-row align-items-start justify-content-between mb-4 gap-3">
         <div>
             <h1 class="h4 mb-1">Cadastro de Agenda Cultural</h1>
-            <p class="text-body-secondary mb-0">Cada usuário pode manter até 3 eventos ativos. Após a data do evento, um novo cadastro é liberado.</p>
+            <p class="text-body-secondary mb-0">Crie e gerencie eventos públicos. Cada usuário pode ter até 3 eventos ativos simultâneos.</p>
         </div>
-        <div>
-            <span class="badge bg-success">Eventos ativos: {{ $activeItemCount ?? 0 }} / 3</span>
+        <div class="text-end">
+            <span class="badge bg-success">Eventos ativos: {{ $activeItemCount }} / 3</span>
         </div>
     </div>
 
@@ -18,9 +18,9 @@
         <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    <form method="POST" action="{{ route('portal.agenda.store') }}" class="card card-body mb-4">
+    <form method="POST" action="{{ route('admin.agenda.store') }}" class="card card-body mb-4">
         @csrf
-        <div class="row g-3">
+        <div class="row gy-3">
             <div class="col-md-6">
                 <label class="form-label">Título</label>
                 <input class="form-control" name="title" value="{{ old('title') }}" required>
@@ -66,13 +66,13 @@
                 <textarea class="form-control" name="description" rows="4">{{ old('description') }}</textarea>
             </div>
             <div class="col-12 text-end">
-                <button class="btn btn-primary" type="submit" {{ ($activeItemCount ?? 0) >= 3 ? 'disabled' : '' }}>Salvar evento</button>
+                <button class="btn btn-primary" type="submit" {{ $activeItemCount >= 3 ? 'disabled' : '' }}>Salvar evento</button>
             </div>
         </div>
     </form>
 
     <div class="row g-3">
-        @forelse ($items as $item)
+        @forelse($items as $item)
             <div class="col-lg-4">
                 <div class="card h-100">
                     <div class="card-body">
@@ -83,7 +83,7 @@
                             </span>
                         </div>
                         <p class="mb-1 text-body-secondary">{{ $item->event_date->toDateString() }} · {{ $item->neighborhood ?? 'Sem bairro' }}</p>
-                        <p class="mb-1"><strong>{{ $item->event_type ?? 'Sem tipo' }}</strong></p>
+                        <p class="mb-1"><strong>{{ $item->event_type ?? 'Sem categoria' }}</strong></p>
                         <p class="mb-1">{{ $item->pricing_type }} · {{ $item->audience_type ?? 'Público geral' }}</p>
                         <p class="mb-0 text-truncate">{{ $item->description ?? 'Sem descrição' }}</p>
                     </div>

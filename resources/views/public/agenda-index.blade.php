@@ -1,41 +1,76 @@
-@extends('layouts.auth')
+@extends('layouts.public')
 
 @section('content')
-<div class="container py-5">
-    <h1>Agenda Cultural</h1>
+    <div class="container py-5">
+        <div class="mb-4">
+            <h1 class="display-6 mb-2">Agenda Cultural</h1>
+            <p class="lead text-body-secondary">Descubra eventos de Itaitinga por data, bairro, tipo e valor. Encontre programação local atualizada e gratuita.</p>
+        </div>
 
-    <form method="GET" class="row g-2 mb-4">
-        <div class="col-md-2"><input class="form-control" type="date" name="data" value="{{ request('data') }}"></div>
-        <div class="col-md-2"><input class="form-control" name="bairro" placeholder="bairro" value="{{ request('bairro') }}"></div>
-        <div class="col-md-2"><input class="form-control" name="tipo" placeholder="tipo de evento" value="{{ request('tipo') }}"></div>
-        <div class="col-md-2">
-            <select class="form-select" name="preco">
-                <option value="">gratuito/pago</option>
-                <option value="gratuito" @selected(request('preco') === 'gratuito')>gratuito</option>
-                <option value="pago" @selected(request('preco') === 'pago')>pago</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select class="form-select" name="publico">
-                <option value="">publico</option>
-                <option value="infantil" @selected(request('publico') === 'infantil')>infantil</option>
-                <option value="familia" @selected(request('publico') === 'familia')>familia</option>
-                <option value="geral" @selected(request('publico') === 'geral')>geral</option>
-            </select>
-        </div>
-        <div class="col-md-2"><input class="form-control" name="organizador" placeholder="organizador" value="{{ request('organizador') }}"></div>
-        <div class="col-12"><button class="btn btn-primary" type="submit">Filtrar</button></div>
-    </form>
+        <form method="GET" class="row g-3 mb-4 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label visually-hidden">Data</label>
+                <input class="form-control" type="date" name="data" value="{{ request('data') }}" placeholder="Data">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label visually-hidden">Bairro</label>
+                <input class="form-control" name="bairro" placeholder="Bairro" value="{{ request('bairro') }}">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label visually-hidden">Tipo</label>
+                <input class="form-control" name="tipo" placeholder="Tipo" value="{{ request('tipo') }}">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label visually-hidden">Preço</label>
+                <select class="form-select" name="preco">
+                    <option value="">Preço</option>
+                    <option value="gratuito" @selected(request('preco') === 'gratuito')>Gratuito</option>
+                    <option value="pago" @selected(request('preco') === 'pago')>Pago</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label visually-hidden">Público</label>
+                <select class="form-select" name="publico">
+                    <option value="">Público</option>
+                    <option value="infantil" @selected(request('publico') === 'infantil')>Infantil</option>
+                    <option value="familia" @selected(request('publico') === 'familia')>Família</option>
+                    <option value="geral" @selected(request('publico') === 'geral')>Geral</option>
+                </select>
+            </div>
+            <div class="col-md-12 col-lg-12 text-end">
+                <button class="btn btn-primary" type="submit">Filtrar</button>
+            </div>
+        </form>
 
-    @forelse ($events as $event)
-        <div class="card card-body mb-2">
-            <strong>{{ $event->title }}</strong>
-            <div>{{ $event->event_date->toDateString() }} | {{ $event->neighborhood }} | {{ $event->event_type }}</div>
-            <div>{{ $event->pricing_type }} | {{ $event->audience_type }} | {{ $event->organizer_name }}</div>
-            <a href="{{ route('public.agenda.show', ['date' => $event->event_date->toDateString(), 'slug' => $event->slug]) }}">Abrir evento</a>
+        <div class="mb-3 text-body-secondary">Exibindo {{ $events->count() }} evento{{ $events->count() === 1 ? '' : 's' }}.</div>
+
+        <div class="row g-4">
+            @forelse ($events as $event)
+                <div class="col-lg-4">
+                    <article class="card h-100">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3">
+                                <span class="badge bg-{{ $event->pricing_type === 'gratuito' ? 'success' : 'warning' }} text-dark">{{ ucfirst($event->pricing_type) }}</span>
+                                @if($event->audience_type)
+                                    <span class="badge bg-secondary">{{ ucfirst($event->audience_type) }}</span>
+                                @endif
+                            </div>
+                            <h2 class="h5 card-title">{{ $event->title }}</h2>
+                            <p class="text-body-secondary mb-1"><strong>Data:</strong> {{ $event->event_date->toFormattedDateString() }}</p>
+                            <p class="text-body-secondary mb-1"><strong>Local:</strong> {{ $event->location ?? 'Não informado' }}</p>
+                            <p class="text-body-secondary mb-1"><strong>Bairro:</strong> {{ $event->neighborhood ?? 'Não informado' }}</p>
+                            <p class="mb-3 text-truncate">{{ $event->description ?? 'Sem descrição adicional.' }}</p>
+                            <div class="mt-auto">
+                                <a class="btn btn-outline-primary w-100" href="{{ route('public.agenda.show', ['date' => $event->event_date->toDateString(), 'slug' => $event->slug]) }}">Ver detalhes</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            @empty
+                <div class="col-12">
+                    <div class="alert alert-secondary">Nenhum evento publicado encontrado.</div>
+                </div>
+            @endforelse
         </div>
-    @empty
-        <div>Nenhum evento publicado.</div>
-    @endforelse
-</div>
+    </div>
 @endsection

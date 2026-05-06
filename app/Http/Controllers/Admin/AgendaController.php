@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Portal;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CulturalEvent;
@@ -14,13 +14,12 @@ class AgendaController extends Controller
 {
     public function index(Request $request): View
     {
+        $items = CulturalEvent::query()->latest()->get();
         $activeItemCount = $request->user()->culturalEvents()
             ->whereDate('event_date', '>=', Carbon::today()->toDateString())
             ->count();
 
-        $items = $request->user()->culturalEvents()->latest()->get();
-
-        return view('portal.agenda', [
+        return view('admin.agenda', [
             'items' => $items,
             'activeItemCount' => $activeItemCount,
         ]);
@@ -73,6 +72,6 @@ class AgendaController extends Controller
             'is_published' => (bool) ($data['is_published'] ?? true),
         ]);
 
-        return redirect()->route('portal.agenda.index')->with('status', 'Agenda item created.');
+        return redirect()->route('admin.agenda.index')->with('status', 'Evento cadastrado com sucesso.');
     }
 }
