@@ -2,25 +2,6 @@
 
 @section('content')
 <div class="home-page">
-    <header class="home-nav">
-        <div class="container d-flex flex-wrap gap-3 align-items-center justify-content-between py-3">
-            <a class="home-brand" href="{{ route('public.home') }}">Portal Itaitinga</a>
-            <nav class="d-flex flex-wrap gap-2 align-items-center">
-                <a href="{{ route('public.agenda.index') }}">Agenda Cultural</a>
-                <a href="{{ route('public.guia.index') }}">Guia Local</a>
-                <a href="{{ route('public.vagas.index') }}">Vagas</a>
-                <a href="{{ route('public.classificados.index') }}">Classificados</a>
-                <div class="ms-auto d-flex gap-2">
-                    @if(auth()->check())
-                        <a href="{{ route('portal.dashboard') }}">Admin</a>
-                    @else
-                        <a href="{{ route('login') }}">Entrar</a>
-                        <a href="{{ route('register') }}">Cadastrar-se</a>
-                    @endif
-                </div>
-            </nav>
-        </div>
-    </header>
 
     <section class="hero-search" style="background-image: url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1600&h=300&q=80'); background-size: cover; background-position: center; position: relative;">
         <div style="position:absolute;inset:0;background:rgba(10,30,60,0.68);z-index:0;"></div>

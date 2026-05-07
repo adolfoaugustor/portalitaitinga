@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'Portal CMS' }}</title>
+    <title>{{ $title ?? 'Portal | Itaitinga' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -13,7 +13,7 @@
         <div class="sidebar-brand d-flex align-items-center justify-content-center">
             <span class="fw-semibold">ADM Portal Itaitinga</span>
         </div>
-        <button class="btn-close d-lg-none" type="button" aria-label="Close menu" data-admin-sidebar-toggle></button>
+        <button class="btn-close d-lg-none" type="button" aria-label="Fechar menu" data-admin-sidebar-toggle></button>
     </div>
 
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
@@ -22,7 +22,7 @@
         <li class="nav-group" aria-expanded="false">
             <a class="nav-link nav-group-toggle" href="#">
                 <svg class="nav-icon"><use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-sitemap') }}"></use></svg>
-                agenda-cultural
+                Agenda Cultural
             </a>
             <ul class="nav-group-items compact">
                 <li class="nav-item"><a class="nav-link" href="{{ route('portal.agenda.index') }}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span>Cadastro</a></li>
@@ -32,7 +32,7 @@
         <li class="nav-group" aria-expanded="false">
             <a class="nav-link nav-group-toggle" href="#">
                 <svg class="nav-icon"><use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-sitemap') }}"></use></svg>
-                guia-local
+                Guia Local
             </a>
             <ul class="nav-group-items compact">
                 <li class="nav-item"><a class="nav-link" href="{{ route('portal.guia.index') }}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span>Cadastro</a></li>
@@ -42,7 +42,7 @@
         <li class="nav-group" aria-expanded="false">
             <a class="nav-link nav-group-toggle" href="#">
                 <svg class="nav-icon"><use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-sitemap') }}"></use></svg>
-                vagas-de-empregos
+                Vagas de Emprego
             </a>
             <ul class="nav-group-items compact">
                 <li class="nav-item"><a class="nav-link" href="{{ route('portal.vagas.index') }}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span>Cadastro</a></li>
@@ -52,7 +52,7 @@
         <li class="nav-group" aria-expanded="false">
             <a class="nav-link nav-group-toggle" href="#">
                 <svg class="nav-icon"><use xlink:href="{{ asset('assets/icons/coreui-free.svg#cil-sitemap') }}"></use></svg>
-                classificados
+                Classificados
             </a>
             <ul class="nav-group-items compact">
                 <li class="nav-item"><a class="nav-link" href="{{ route('portal.classificados.index') }}"><span class="nav-icon"><span class="nav-icon-bullet"></span></span>Cadastro</a></li>

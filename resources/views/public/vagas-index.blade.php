@@ -1,16 +1,26 @@
-@extends('layouts.auth')
+@extends('layouts.public')
 
 @section('content')
 <div class="container py-5">
-    <h1>Vagas de Emprego</h1>
-    @forelse ($items as $item)
-        <div class="card card-body mb-2">
-            <strong>{{ $item->title }}</strong>
-            <div>Loja: {{ $item->store_name }}</div>
-            <a href="{{ route('public.vagas.show', ['slug' => $item->slug]) }}">Abrir vaga</a>
-        </div>
-    @empty
-        <div>Nenhuma vaga publicada.</div>
-    @endforelse
+    <x-public.page-header
+        title="Vagas de Emprego"
+        subtitle="Oportunidades abertas em Itaitinga para diferentes perfis profissionais."
+        :meta="$items->count().' '.($items->count() === 1 ? 'vaga encontrada.' : 'vagas encontradas.')"
+    />
+
+    <div class="row g-3">
+        @forelse ($items as $item)
+            <div class="col-md-6 col-lg-4">
+                <a class="list-card h-100 d-flex flex-column" href="{{ route('public.vagas.show', ['slug' => $item->slug]) }}">
+                    <strong>{{ $item->title }}</strong>
+                    <small>Loja: {{ $item->store_name }}</small>
+                </a>
+            </div>
+        @empty
+            <div class="col-12">
+                <x-public.empty-state message="Nenhuma vaga publicada." />
+            </div>
+        @endforelse
+    </div>
 </div>
 @endsection
