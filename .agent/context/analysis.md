@@ -532,3 +532,8 @@ Posso no próximo passo montar para você uma **estrutura completa de layout em 
 [13]: https://itaitinga.ce.gov.br/ "Prefeitura de Itaitinga"
 [14]: https://www.cultura.sp.gov.br/sec_cultura/Eventos/Agenda_VivaSP "Agenda VivaSP"
 
+para fazer:
+1 - criar grupo/canal do whatsapp para ofertas do próprio portal, afim de anunciar cupons para usuários do próprio portal.
+
+Forma de postagem e horário: pelo menos 5x por dia, podendo chegar a 10x por dia em dias de grandes eventos. Horário: 7:00, 12:00, 18:00, 21:00.
+

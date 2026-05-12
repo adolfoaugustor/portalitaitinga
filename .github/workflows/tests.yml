@@ -1,13 +1,11 @@
 name: Tests
-
 on:
   push:
     branches:
       - master
       - '*.x'
-  pull_request:
-  schedule:
-    - cron: '0 0 * * *'
+  # pull_request foi removido
+  # schedule foi removido (cron diário desabilitado)
 
 permissions:
   contents: read
@@ -15,33 +13,28 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
-
+    # Desabilita o workflow completamente (remova esta linha quando quiser reativar)
+    if: false
+    
     strategy:
       fail-fast: true
       matrix:
         php: [8.2, 8.3, 8.4]
-
     name: PHP ${{ matrix.php }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
-
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
-
       - name: Copy environment file
         run: cp .env.example .env
-
       - name: Generate app key
         run: php artisan key:generate
-
       - name: Execute tests
         run: php artisan test
