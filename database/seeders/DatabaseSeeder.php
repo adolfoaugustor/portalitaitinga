@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
         
-        if (app()->environment('local')) {
+        //if (app()->environment('local')) {
             $users = collect([
                 ['email' => 'empresa1@portal.local', 'name' => 'Padaria Luz do Pao', 'organization_type' => 'company'],
                 ['email' => 'loja1@portal.local', 'name' => 'Lojinha do Bairro', 'organization_type' => 'lojas'],
@@ -126,6 +126,6 @@ class DatabaseSeeder extends Seeder
 
             $this->command->info('Seed complete: 6 organization users, guide local entries, classified and job vacancy items plus events created.');
             $this->command->info('All seeded organization users use password: senha123');
-        }
+        //}
     }
 }
